@@ -1,0 +1,24 @@
+<!-- html page structure  -->
+
+{% extends "base.html" %}
+
+<!-- Title  -->
+
+{% block title %} <h1> What is promised is debt! </h1> {% endblock %}
+
+<!--Info : show list  -->
+
+{% block content %}
+
+
+{%for key in data %}
+    <p>{{key }} : {{ data[key]}}</p>
+{%endfor%}
+
+
+<!-- Redirection  home page  
+
+<a href="/">
+	<button> Let's go home, I want to try another app!</button>
+		</a> -->
+{% endblock %}
