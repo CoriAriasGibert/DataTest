@@ -1,29 +1,36 @@
-# Import libraries 
+# Import libraries
 import requests
+from requests.exceptions import MissingSchema
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, url_for, redirect, session, request
+
+
+
 
 app = Flask(__name__)
 app.secret_key = "Hello"
 
-
 # Land page
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.errorhandler(MissingSchema)
+def handle_bad_request(e):
+  return render_template('error.html')
 
 @app.route('/url', methods=['POST'])
 def url():
-
     url = request.form.get('url')
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'lxml')
 
     #data variables
 
-    name = soup.select("h1", {"class": "header-touch__AppName-sc-1om5ik5-5 PLRmn"})
+    name = soup.select("h1",
+                       {"class": "header-touch__AppName-sc-1om5ik5-5 PLRmn"})
 
     version = soup.select(".drfVqx")
 
@@ -35,7 +42,7 @@ def url():
 
     release_date = soup.select(".jeuKzx")
 
-    # List with all app's info 
+    # List with all app's info
 
     app_information = {
         "App's Name ": name[0].getText(),
@@ -44,9 +51,9 @@ def url():
         "Release Date": release_date[0].getText(),
         "App's Description": app_description[0].getText()
     }
-    return render_template('application_information.html', data=app_information )
 
- 
+    return render_template('application_information.html', data=app_information )  
+
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug = True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
