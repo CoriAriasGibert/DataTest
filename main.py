@@ -1,25 +1,31 @@
 # Import libraries
+
 import requests
 from requests.exceptions import MissingSchema
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, url_for, redirect, session, request
 
-
-
-
 app = Flask(__name__)
 app.secret_key = "Hello"
 
-# Land page
+# Home page
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
+# Error page
+
+
 @app.errorhandler(MissingSchema)
 def handle_bad_request(e):
-  return render_template('error.html')
+    return render_template('error.html')
+
+
+# Information page
+
 
 @app.route('/url', methods=['POST'])
 def url():
@@ -42,7 +48,7 @@ def url():
 
     release_date = soup.select(".jeuKzx")
 
-    # List with all app's info
+    # List with all app's information
 
     app_information = {
         "App's Name ": name[0].getText(),
@@ -52,7 +58,8 @@ def url():
         "App's Description": app_description[0].getText()
     }
 
-    return render_template('application_information.html', data=app_information )  
+    return render_template('application_information.html',
+                           data=app_information)
 
 
 if __name__ == "__main__":
