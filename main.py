@@ -1,37 +1,54 @@
 # Import libraries
 
 import requests
-from requests.exceptions import MissingSchema
+import requests.exceptions
+import typing
+from typing import TypeVar
+from collections.abc import Sequence
+from requests.exceptions import MissingSchema,InvalidURL
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, url_for, redirect, session, request
+from flask import Flask, render_template, request
+
+
 
 app = Flask(__name__)
 app.secret_key = "Hello"
+
+#validator example (to see in test_Data .py)
+
+
+
 
 # Home page
 
 
 @app.route('/')
-def index():
+def index()-> object:
     return render_template('index.html')
 
 
-# Error page
+# More Error pages, just in case 
 
-
+#Bad Request 
+@app.errorhandler(400) 
+#Not Found
+@app.errorhandler(404)
+#Invalid Url
+@app.errorhandler(InvalidURL)
+#Missing Schema
 @app.errorhandler(MissingSchema)
-def handle_bad_request(e):
+def handle_bad_request(error)-> object:
     return render_template('error.html')
-
 
 # Information page
 
 
 @app.route('/url', methods=['POST'])
-def url():
-    url = request.form.get('url')
+def url()-> object:
+    url= request.form.get('url')
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'lxml')
+  
 
     #data variables
 
@@ -48,18 +65,23 @@ def url():
 
     release_date = soup.select(".jeuKzx")
 
-    # List with all app's information
+    try:
+      # List with all app's information
+      app_information: dict[str,str] =  {
+            "App's Name ": name[0].getText(),
+            "App's Version ": version[0].getText(),
+            "Number of Dowloads ": numbers_of_dowloads[0].getText(),
+            "Release Date": release_date[0].getText(),
+            "App's Description": app_description[0].getText()
+      }
+            
+      return render_template('application_information.html',
+                              data=app_information)
 
-    app_information = {
-        "App's Name ": name[0].getText(),
-        "App's Version ": version[0].getText(),
-        "Number of Dowloads ": numbers_of_dowloads[0].getText(),
-        "Release Date": release_date[0].getText(),
-        "App's Description": app_description[0].getText()
-    }
-
-    return render_template('application_information.html',
-                           data=app_information)
+    except Exception:
+      # if the address is valid but does not correspond to an application
+      return render_template('misspelled_address.html')
+      raise Exception
 
 
 if __name__ == "__main__":

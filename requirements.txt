@@ -1,2 +1,7 @@
-Flask==1.0.2
-flask
+Flask version = "1.0.2"
+requests
+bs4 version = "0.0.1"
+beautifulsoup4
+mypy
+typing
+pytest

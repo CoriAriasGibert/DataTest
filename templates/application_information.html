@@ -4,15 +4,15 @@
 
 <!-- Title  -->
 
-{% block title %} <h1> What is promised is debt! </h1> {% endblock %}
+{% block title %} The data {% endblock %}
 
 <!--Info : show list  -->
 
 {% block content %}
-
-
+<h1> What is promised is debt! </h1>
+<h1> The data ! </h1>
 {%for key in data %}
-    <p>{{key }} : {{ data[key]}}</p>
+    <p><h3> {{key }} : </h3>  {{ data[key]}}</p>
 {%endfor%}
 
 <!-- Redirection  home page  -->
