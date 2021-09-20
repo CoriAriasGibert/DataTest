@@ -1,7 +1,11 @@
-Flask version = "1.0.2"
-requests
-bs4 version = "0.0.1"
-beautifulsoup4
-mypy
-typing
-pytest
+flask version = "1.0.2"
+python version = "3.8"
+pandas version = "1.3.2"
+lxml version = "4.6.3"
+mypy version = "0.910"
+pytest version = "6.2.5"
+bs4 version = "0.0.1" 
+mypy version = "0.910"
+typing version = "3.10.0.0"
+pytest version = "6.2.5"
+urllib3 version= "1.26.6"
