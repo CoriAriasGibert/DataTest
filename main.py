@@ -1,23 +1,19 @@
 # Import libraries
 
-import requests
-import requests.exceptions
-import typing
-from typing import TypeVar
-from collections.abc import Sequence
+import requests # type: ignore
+import requests.exceptions # type: ignore
+import mypy
 from requests.exceptions import MissingSchema,InvalidURL
-from bs4 import BeautifulSoup
-from flask import Flask, render_template, request
+from bs4 import BeautifulSoup # type: ignore
+from flask import Flask, render_template, request # type: ignore
 
 
 
 app = Flask(__name__)
 app.secret_key = "Hello"
 
-#validator example (to see in test_Data .py)
-
-
-
+[mypy]
+ignore_missing_imports = True
 
 # Home page
 
@@ -27,7 +23,7 @@ def index()-> object:
     return render_template('index.html')
 
 
-# More Error pages, just in case 
+# Error pages
 
 #Bad Request 
 @app.errorhandler(400) 
@@ -67,18 +63,19 @@ def url()-> object:
 
     try:
       # List with all app's information
-      app_information: dict[str,str] =  {
+      app_information: dict =  {
             "App's Name ": name[0].getText(),
             "App's Version ": version[0].getText(),
             "Number of Dowloads ": numbers_of_dowloads[0].getText(),
             "Release Date": release_date[0].getText(),
             "App's Description": app_description[0].getText()
       }
-            
+      # if the address is valid and it is an aptoide app      
       return render_template('application_information.html',
                               data=app_information)
 
     except Exception:
+
       # if the address is valid but does not correspond to an application
       return render_template('misspelled_address.html')
       raise Exception
