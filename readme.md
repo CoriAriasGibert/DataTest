@@ -10,7 +10,13 @@ The web application's functionality is to retrieve information about a specific 
 
 ✅ Request
 
-✅ BeautifulSoup
+✅ BeautifulSoup 
+
+✅ Mypy
+
+✅ Typing
+
+✅Pytest
 
 
 
