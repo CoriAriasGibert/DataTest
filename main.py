@@ -33,7 +33,7 @@ def index()-> object:
 @app.errorhandler(InvalidURL)
 #Missing Schema
 @app.errorhandler(MissingSchema)
-def handle_bad_request(error)-> object:
+def handle_bad_request(error:object)-> object:
     return render_template('error.html')
 
 # Information page
